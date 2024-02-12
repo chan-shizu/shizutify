@@ -1,13 +1,11 @@
 import Image from "next/image";
 import { FC } from "react";
 
-type Props = { imagePath: string; songTitle: string; songId: string };
+type Props = { songTitle: string; songId: string };
 
-export const RecommendSongCard: FC<Props> = ({
-  imagePath,
-  songTitle,
-  songId,
-}) => {
+export const RecommendSongCard: FC<Props> = ({ songTitle, songId }) => {
+  const imagePath =
+    process.env.NEXT_PUBLIC_AWS_S3_BUCKET_URL + "image/" + songId + ".jpg";
   return (
     <div className="flex w-full gap-x-2 bg-zinc-600 rounded-xl">
       <Image

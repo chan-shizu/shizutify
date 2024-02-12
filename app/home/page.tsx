@@ -5,20 +5,24 @@ import { RecommendSongCard } from "./_component/RecommendSongCard";
 import { HistorySongCard } from "./_component/HistorySongCard";
 import { AudioPlayerBottomBar } from "@/component/AudioPlayerBottomBar";
 import { BottomBar } from "@/component/BottomBar";
+import { useContext } from "react";
+import { SongsContext } from "@/provider/SongsProvider";
+import { DynamoSong } from "@/type/dynamo";
 
 export const Page = () => {
+  const songs = useContext(SongsContext) as DynamoSong[];
+
   return (
     <div className="px-4 bg-zinc-800 min-h-screen">
       <h1 className="text-center text-2xl font-semibold pt-5">ホーム</h1>
       <section className="pt-3">
         <h2 className="text-xl">今日のおすすめ</h2>
         <div className="grid grid-cols-2 gap-2 mt-3">
-          {resources.map((song) => (
+          {songs.map((song) => (
             <RecommendSongCard
-              key={song.musicPath}
-              imagePath={song.imagePath}
-              songTitle={song.songTitle}
-              songId={"1"}
+              key={song.song_id}
+              songTitle={song.song_name}
+              songId={song.song_id}
             />
           ))}
         </div>
@@ -26,12 +30,11 @@ export const Page = () => {
       <section className="mt-6">
         <h2 className="text-xl">最近聞いた曲</h2>
         <div className="flex gap-x-4 overflow-x-scroll mt-3">
-          {resources.map((song) => (
+          {songs.map((song) => (
             <HistorySongCard
-              key={song.musicPath}
-              imagePath={song.imagePath}
-              songTitle={song.songTitle}
-              songId={"1"}
+              key={song.song_id}
+              songTitle={song.song_name}
+              songId={song.song_id}
             />
           ))}
         </div>
