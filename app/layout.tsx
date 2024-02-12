@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { BottomBar } from "@/component/BottomBar";
+import { AudioPlayingProvider } from "../provider/AudioPlayingProvider";
+import { CurrentAudioIdProvider } from "../provider/CurrentAudioIdProvider";
+import { AudioCurrentTimeProvider } from "../provider/AudioCurrentTimeProvider";
+import { AudioPlayerBottomBar } from "@/component/AudioPlayerBottomBar";
+import { AudioPlayerModal } from "@/component/AudioPlayerModal";
+import { AudioPlayerModalProvider } from "@/provider/AudioPlayerModalProvider";
+import { AudioProvider } from "@/provider/AudioProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,8 +23,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="ja">
+      <body className={inter.className}>
+        <AudioPlayingProvider>
+          <CurrentAudioIdProvider>
+            <AudioCurrentTimeProvider>
+              <AudioPlayerModalProvider>
+                <AudioProvider>
+                  <div className="font-sans text-white">{children}</div>
+                  <AudioPlayerModal />
+                </AudioProvider>
+              </AudioPlayerModalProvider>
+            </AudioCurrentTimeProvider>
+          </CurrentAudioIdProvider>
+        </AudioPlayingProvider>
+      </body>
     </html>
   );
 }

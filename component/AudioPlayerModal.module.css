@@ -1,0 +1,12 @@
+.modal {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding-bottom: 20px;
+}
+
+.close_modal_icon {
+  position: absolute;
+  top: 12px;
+  left: 4px;
+}
