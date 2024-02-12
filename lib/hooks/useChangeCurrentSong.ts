@@ -19,6 +19,10 @@ import {
   AudioPlayingContext,
   AudioPlayingContextType,
 } from "@/provider/AudioPlayingProvider";
+import {
+  SongHistoriesContext,
+  SongHistoriesContextType,
+} from "@/provider/SongHistoriesProvider";
 
 export const useChangeCurrentSong = () => {
   const [isAudioPlaying, setIsAudioPlaying] = useContext(
@@ -33,12 +37,19 @@ export const useChangeCurrentSong = () => {
   const [audioPlayerModal, setAudioPlayerModal] = useContext(
     AudioPlayerModalContext
   ) as AudioPlayerModalContextType;
+  const [songHistories, setSongHistories] = useContext(
+    SongHistoriesContext
+  ) as SongHistoriesContextType;
   const audio = useContext(AudioContext);
 
   const changeCurrentSong = (songId: string) => {
     setCurrentSongId(songId);
     setAudioCurrentTime(0);
     setAudioPlayerModal(true);
+    if (currentSongId !== "") {
+      setSongHistories((prev) => [...prev, currentSongId]);
+    }
+    console.log(songHistories);
     audio.src =
       process.env.NEXT_PUBLIC_AWS_S3_BUCKET_URL + "audio/" + songId + ".mp3";
     if (isAudioPlaying) {

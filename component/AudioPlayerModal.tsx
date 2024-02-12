@@ -8,7 +8,6 @@ import {
   IoPlaySkipBack,
   IoPlaySkipForward,
 } from "react-icons/io5";
-import { resources } from "@/mockData";
 import {
   AudioPlayingContext,
   AudioPlayingContextType,
@@ -30,6 +29,8 @@ import {
 } from "@/provider/AudioPlayerModalProvider";
 import { AudioContext } from "@/provider/AudioProvider";
 import { useFilterCurrentMusic } from "@/lib/hooks/useFilterCurrentMusic";
+import { useNextSong } from "@/lib/hooks/useNextSong";
+import { usePrevSong } from "@/lib/hooks/usePrevSong";
 
 type Props = {};
 
@@ -49,6 +50,8 @@ export const AudioPlayerModal: FC<Props> = () => {
   const audio = useContext(AudioContext);
 
   const song = useFilterCurrentMusic();
+  const changeSongNext = useNextSong();
+  const changeSongPrev = usePrevSong();
 
   useEffect(() => {
     if (isAudioPlaying) {
@@ -69,35 +72,21 @@ export const AudioPlayerModal: FC<Props> = () => {
     if (isAudioPlaying) {
       audio.play();
     }
-  }, [currentSongId, audio]);
+  }, [currentSongId, audio, isAudioPlaying, song]);
 
   useEffect(() => {
     if (!isAudioPlaying) return;
     const interval = setInterval(() => {
       setAudioCurrentTime(audio.currentTime);
       if (audio.currentTime == audio.duration) {
-        incrementSongId();
+        changeSongNext();
       }
     }, 500);
     return () => clearInterval(interval);
-  }, [isAudioPlaying]);
+  }, [isAudioPlaying, audio, changeSongNext, setAudioCurrentTime]);
 
   const handleOnClickStopAndPauseButton = () => {
     setIsAudioPlaying((prev) => !prev);
-  };
-
-  const incrementSongId = () => {
-    // setCurrentSongId((prev) => (prev + 1) % resources.length);
-    setAudioCurrentTime(0);
-  };
-
-  const decrementSongId = () => {
-    setCurrentSongId(
-      (prev) =>
-        // prev - 1 == -1 ? resources.length - 1 : prev - 1
-        prev
-    );
-    setAudioCurrentTime(0);
   };
 
   const updateCurrentTime = (val: number) => {
@@ -163,7 +152,7 @@ export const AudioPlayerModal: FC<Props> = () => {
           />
         </div>
         <div className="text-center flex justify-center gap-x-5 align-middle">
-          <button className="block" onClick={decrementSongId}>
+          <button className="block" onClick={changeSongPrev}>
             <IconContext.Provider value={{ size: "40px" }}>
               <IoPlaySkipBack />
             </IconContext.Provider>
@@ -173,7 +162,7 @@ export const AudioPlayerModal: FC<Props> = () => {
               {isAudioPlaying ? <IoPauseCircleSharp /> : <IoIosPlayCircle />}
             </IconContext.Provider>
           </button>
-          <button className="block" onClick={incrementSongId}>
+          <button className="block" onClick={changeSongNext}>
             <IconContext.Provider value={{ size: "40px" }}>
               <IoPlaySkipForward />
             </IconContext.Provider>
