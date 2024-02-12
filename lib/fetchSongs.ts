@@ -1,3 +1,4 @@
+import { DynamoSong } from "@/type/dynamo";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 
 import { DynamoDBDocument, ScanCommand } from "@aws-sdk/lib-dynamodb";

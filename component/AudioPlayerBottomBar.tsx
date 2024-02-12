@@ -1,9 +1,9 @@
 "use client";
 
 import {
-  CurrentAudioIdContext,
-  CurrentAudioIdContextType,
-} from "@/provider/CurrentAudioIdProvider";
+  CurrentSongIdContext,
+  CurrentSongIdContextType,
+} from "@/provider/CurrentSongIdProvider";
 import Image from "next/image";
 import { useContext } from "react";
 import { resources } from "@/mockData";
@@ -25,14 +25,15 @@ import {
 } from "@/provider/AudioCurrentTimeProvider";
 import { AudioRangeSliderBottomBar } from "./AudioRangeSliderBottomBar";
 import { AudioContext } from "@/provider/AudioProvider";
+import { useFilterCurrentMusic } from "@/lib/hooks/useFilterCurrentMusic";
 
 export const AudioPlayerBottomBar = () => {
   const [isAudioPlaying, setIsAudioPlaying] = useContext(
     AudioPlayingContext
   ) as AudioPlayingContextType;
-  const [currentAudioId, _] = useContext(
-    CurrentAudioIdContext
-  ) as CurrentAudioIdContextType;
+  const [currentSongId, setCurrentSongId] = useContext(
+    CurrentSongIdContext
+  ) as CurrentSongIdContextType;
   const [audioCurrentTime, setAudioCurrentTime] = useContext(
     AudioCurrentTimeContext
   ) as AudioCurrentTimeContextType;
@@ -41,7 +42,7 @@ export const AudioPlayerBottomBar = () => {
   ) as AudioPlayerModalContextType;
   const audio = useContext(AudioContext);
 
-  const songInfo = resources[currentAudioId];
+  const song = useFilterCurrentMusic();
 
   const handleOnClickStopAndPauseButton = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -54,22 +55,26 @@ export const AudioPlayerBottomBar = () => {
     setAudioPlayerModal(true);
   };
 
+  const imagePath =
+    process.env.NEXT_PUBLIC_AWS_S3_BUCKET_URL +
+    "image/" +
+    song?.song_id +
+    ".jpg";
+
   return (
     <div onClick={handleOnClickBottomBar} className={`${styles.bottom_bar} `}>
       <div className="flex justify-between">
         <div className="flex justify-center gap-x-2">
           <Image
-            src={songInfo.imagePath}
+            src={imagePath}
             width={80}
             height={80}
             alt="artist image"
             className="rounded-md"
           />
           <div className="flex flex-col justify-center">
-            <p className="font-semibold">{songInfo.songTitle}</p>
-            <p className="text-xl text-opacity-80 pt-2">
-              {songInfo.artistName}
-            </p>
+            <p className="font-semibold">{song?.song_name}</p>
+            <p className="text-xl text-opacity-80 pt-2">{song?.artist_name}</p>
           </div>
         </div>
         <button

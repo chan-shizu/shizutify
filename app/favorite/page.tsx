@@ -1,15 +1,21 @@
 "use client";
 
 import { resources } from "@/mockData";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IconContext } from "react-icons";
 import { IoMdSearch } from "react-icons/io";
 import { SongCard } from "@/component/SongCard";
 import { AudioPlayerBottomBar } from "@/component/AudioPlayerBottomBar";
 import { BottomBar } from "@/component/BottomBar";
+import {
+  CurrentSongIdContext,
+  CurrentSongIdContextType,
+} from "@/provider/CurrentSongIdProvider";
 
 export const Page = () => {
-  const [searchInput, setSearchInput] = useState("");
+  const [currentSongId, setCurrentSongId] = useContext(
+    CurrentSongIdContext
+  ) as CurrentSongIdContextType;
 
   return (
     <div className="px-4 bg-zinc-800 min-h-screen">
@@ -25,9 +31,11 @@ export const Page = () => {
           />
         ))}
       </div>
-      <div className="fixed bottom-20 left-0 w-full">
-        <AudioPlayerBottomBar />
-      </div>
+      {currentSongId !== "" && (
+        <div className="fixed bottom-20 left-0 w-full">
+          <AudioPlayerBottomBar />
+        </div>
+      )}
       <div className="fixed bottom-0 left-0 w-full opacity-90 bg-black py-3">
         <BottomBar />
       </div>

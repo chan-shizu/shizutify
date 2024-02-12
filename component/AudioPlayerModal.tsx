@@ -14,9 +14,9 @@ import {
   AudioPlayingContextType,
 } from "../provider/AudioPlayingProvider";
 import {
-  CurrentAudioIdContext,
-  CurrentAudioIdContextType,
-} from "../provider/CurrentAudioIdProvider";
+  CurrentSongIdContext,
+  CurrentSongIdContextType,
+} from "../provider/CurrentSongIdProvider";
 import {
   AudioCurrentTimeContext,
   AudioCurrentTimeContextType,
@@ -29,6 +29,7 @@ import {
   AudioPlayerModalContextType,
 } from "@/provider/AudioPlayerModalProvider";
 import { AudioContext } from "@/provider/AudioProvider";
+import { useFilterCurrentMusic } from "@/lib/hooks/useFilterCurrentMusic";
 
 type Props = {};
 
@@ -36,9 +37,9 @@ export const AudioPlayerModal: FC<Props> = () => {
   const [isAudioPlaying, setIsAudioPlaying] = useContext(
     AudioPlayingContext
   ) as AudioPlayingContextType;
-  const [currentAudioId, setCurrentAudioId] = useContext(
-    CurrentAudioIdContext
-  ) as CurrentAudioIdContextType;
+  const [currentSongId, setCurrentSongId] = useContext(
+    CurrentSongIdContext
+  ) as CurrentSongIdContextType;
   const [audioCurrentTime, setAudioCurrentTime] = useContext(
     AudioCurrentTimeContext
   ) as AudioCurrentTimeContextType;
@@ -47,7 +48,7 @@ export const AudioPlayerModal: FC<Props> = () => {
   ) as AudioPlayerModalContextType;
   const audio = useContext(AudioContext);
 
-  const [loading, setLoading] = useState(true);
+  const song = useFilterCurrentMusic();
 
   useEffect(() => {
     if (isAudioPlaying) {
@@ -57,23 +58,25 @@ export const AudioPlayerModal: FC<Props> = () => {
     } else {
       audio?.pause();
     }
-  }, [isAudioPlaying]);
+  }, [isAudioPlaying, audio]);
 
   useEffect(() => {
-    setLoading(true);
-    audio.src = resources[currentAudioId].musicPath;
+    audio.src =
+      process.env.NEXT_PUBLIC_AWS_S3_BUCKET_URL +
+      "audio/" +
+      song?.song_id +
+      ".mp3";
     if (isAudioPlaying) {
       audio.play();
     }
-    if (audio.duration) setLoading(false);
-  }, [currentAudioId]);
+  }, [currentSongId, audio]);
 
   useEffect(() => {
     if (!isAudioPlaying) return;
     const interval = setInterval(() => {
       setAudioCurrentTime(audio.currentTime);
       if (audio.currentTime == audio.duration) {
-        incrementAudioId();
+        incrementSongId();
       }
     }, 500);
     return () => clearInterval(interval);
@@ -83,14 +86,16 @@ export const AudioPlayerModal: FC<Props> = () => {
     setIsAudioPlaying((prev) => !prev);
   };
 
-  const incrementAudioId = () => {
-    setCurrentAudioId((prev) => (prev + 1) % resources.length);
+  const incrementSongId = () => {
+    // setCurrentSongId((prev) => (prev + 1) % resources.length);
     setAudioCurrentTime(0);
   };
 
-  const decrementAudioId = () => {
-    setCurrentAudioId((prev) =>
-      prev - 1 == -1 ? resources.length - 1 : prev - 1
+  const decrementSongId = () => {
+    setCurrentSongId(
+      (prev) =>
+        // prev - 1 == -1 ? resources.length - 1 : prev - 1
+        prev
     );
     setAudioCurrentTime(0);
   };
@@ -108,6 +113,12 @@ export const AudioPlayerModal: FC<Props> = () => {
     return <></>;
   }
 
+  const imagePath =
+    process.env.NEXT_PUBLIC_AWS_S3_BUCKET_URL +
+    "image/" +
+    song?.song_id +
+    ".jpg";
+
   return (
     <div
       className={`${styles.modal} px-5 bg-gradient-to-b w-full from-teal-800 to-teal-950 text-white min-h-screen z-10 flex flex-col justify-between`}
@@ -119,11 +130,11 @@ export const AudioPlayerModal: FC<Props> = () => {
               <IoIosArrowDown />
             </IconContext.Provider>
           </button>
-          <h2 className="py-5 text-center font-sans">おすすめの曲を再生中</h2>
+          <h2 className="py-5 text-center font-sans">再生中</h2>
         </div>
         <img
           className="rounded-2xl mt-4 w-full"
-          src={resources[currentAudioId].imagePath}
+          src={imagePath}
           alt="artist image"
         />
       </div>
@@ -131,10 +142,12 @@ export const AudioPlayerModal: FC<Props> = () => {
         <div className="mt-6 flex justify-between">
           <div>
             <h2 className="font-bold text-2xl">
-              {resources[currentAudioId].songTitle}
+              {/* {resources[currentSongId].songTitle} */}
+              {song?.song_name}
             </h2>
             <p className="text-lg text-gray-300">
-              {resources[currentAudioId].artistName}
+              {/* {resources[currentSongId].artistName} */}
+              {song?.artist_name}
             </p>
           </div>
           <div>
@@ -150,7 +163,7 @@ export const AudioPlayerModal: FC<Props> = () => {
           />
         </div>
         <div className="text-center flex justify-center gap-x-5 align-middle">
-          <button className="block" onClick={decrementAudioId}>
+          <button className="block" onClick={decrementSongId}>
             <IconContext.Provider value={{ size: "40px" }}>
               <IoPlaySkipBack />
             </IconContext.Provider>
@@ -160,7 +173,7 @@ export const AudioPlayerModal: FC<Props> = () => {
               {isAudioPlaying ? <IoPauseCircleSharp /> : <IoIosPlayCircle />}
             </IconContext.Provider>
           </button>
-          <button className="block" onClick={incrementAudioId}>
+          <button className="block" onClick={incrementSongId}>
             <IconContext.Provider value={{ size: "40px" }}>
               <IoPlaySkipForward />
             </IconContext.Provider>

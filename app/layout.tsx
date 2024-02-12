@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AudioPlayingProvider } from "../provider/AudioPlayingProvider";
-import { CurrentAudioIdProvider } from "../provider/CurrentAudioIdProvider";
+import { CurrentSongIdProvider } from "../provider/CurrentSongIdProvider";
 import { AudioCurrentTimeProvider } from "../provider/AudioCurrentTimeProvider";
 import { AudioPlayerModal } from "@/component/AudioPlayerModal";
 import { AudioPlayerModalProvider } from "@/provider/AudioPlayerModalProvider";
 import { AudioProvider } from "@/provider/AudioProvider";
 import { fetchSongs } from "@/lib/fetchSongs";
 import { SongsProvider } from "@/provider/SongsProvider";
+import { DynamoSong } from "@/type/dynamo";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,16 +23,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const songs = await fetchSongs();
+  const songs = (await fetchSongs()) as DynamoSong[];
 
-  console.log("##########$$$$d");
-  console.log(songs);
+  if (!songs) return <p>fetch failed...ごめん、、、</p>;
 
   return (
     <html lang="ja">
       <body className={inter.className}>
         <AudioPlayingProvider>
-          <CurrentAudioIdProvider>
+          <CurrentSongIdProvider>
             <AudioCurrentTimeProvider>
               <AudioPlayerModalProvider>
                 <SongsProvider songs={songs}>
@@ -42,7 +42,7 @@ export default async function RootLayout({
                 </SongsProvider>
               </AudioPlayerModalProvider>
             </AudioCurrentTimeProvider>
-          </CurrentAudioIdProvider>
+          </CurrentSongIdProvider>
         </AudioPlayingProvider>
       </body>
     </html>
