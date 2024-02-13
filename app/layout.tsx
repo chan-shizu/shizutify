@@ -4,13 +4,14 @@ import "./globals.css";
 import { AudioPlayingProvider } from "../provider/AudioPlayingProvider";
 import { CurrentSongIdProvider } from "../provider/CurrentSongIdProvider";
 import { AudioCurrentTimeProvider } from "../provider/AudioCurrentTimeProvider";
-import { AudioPlayerModal } from "@/component/AudioPlayerModal";
+import { AudioPlayerModal } from "@/components/AudioPlayerModal";
 import { AudioPlayerModalProvider } from "@/provider/AudioPlayerModalProvider";
 import { AudioProvider } from "@/provider/AudioProvider";
 import { fetchSongs } from "@/lib/fetchSongs";
 import { SongsProvider } from "@/provider/SongsProvider";
 import { DynamoSong } from "@/type/dynamo";
 import { SongHistoriesProvider } from "@/provider/SongHistoriesProvider";
+import { FavoriteSongIdsProvider } from "@/provider/FavoriteSongIdsProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,8 +38,10 @@ export default async function RootLayout({
                 <SongsProvider songs={songs}>
                   <AudioProvider>
                     <SongHistoriesProvider>
-                      <div className="font-sans text-white">{children}</div>
-                      <AudioPlayerModal />
+                      <FavoriteSongIdsProvider>
+                        <div className="font-sans text-white">{children}</div>
+                        <AudioPlayerModal />
+                      </FavoriteSongIdsProvider>
                     </SongHistoriesProvider>
                   </AudioProvider>
                 </SongsProvider>

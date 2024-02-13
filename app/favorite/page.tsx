@@ -4,32 +4,44 @@ import { resources } from "@/mockData";
 import { useContext, useState } from "react";
 import { IconContext } from "react-icons";
 import { IoMdSearch } from "react-icons/io";
-import { SongCard } from "@/component/SongCard";
-import { AudioPlayerBottomBar } from "@/component/AudioPlayerBottomBar";
-import { BottomBar } from "@/component/BottomBar";
+import { SongCard } from "@/components/SongCard";
+import { AudioPlayerBottomBar } from "@/components/AudioPlayerBottomBar";
+import { BottomBar } from "@/components/BottomBar";
 import {
   CurrentSongIdContext,
   CurrentSongIdContextType,
 } from "@/provider/CurrentSongIdProvider";
+import { SongsContext } from "@/provider/SongsProvider";
+import {
+  FavoriteSongIdsContext,
+  FavoriteSongIdsContextType,
+} from "@/provider/FavoriteSongIdsProvider";
 
 export const Page = () => {
   const [currentSongId, setCurrentSongId] = useContext(
     CurrentSongIdContext
   ) as CurrentSongIdContextType;
+  const songs = useContext(SongsContext);
+  const [favoriteSongIds, updateFavoriteSongIds] = useContext(
+    FavoriteSongIdsContext
+  ) as FavoriteSongIdsContextType;
+  const favoriteSongs = songs?.filter((song) =>
+    favoriteSongIds.includes(song.song_id)
+  );
 
   return (
     <div className="px-4 bg-zinc-800 min-h-screen">
       <h1 className="text-center text-2xl pt-5 font-semibold">お気に入り</h1>
       <div className="flex flex-col gap-y-3 mt-8">
-        {resources.map((song) => (
-          <SongCard
-            key={song.musicPath}
-            imagePath={song.imagePath}
-            songTitle={song.songTitle}
-            artistName={song.artistName}
-            songId={"1"}
-          />
-        ))}
+        {favoriteSongs &&
+          favoriteSongs.map((song) => (
+            <SongCard
+              key={song.song_id}
+              songTitle={song.song_name}
+              artistName={song.artist_name}
+              songId={song.song_id}
+            />
+          ))}
       </div>
       {currentSongId !== "" && (
         <div className="fixed bottom-20 left-0 w-full">

@@ -3,8 +3,8 @@
 import { resources } from "@/mockData";
 import { RecommendSongCard } from "./_component/RecommendSongCard";
 import { HistorySongCard } from "./_component/HistorySongCard";
-import { AudioPlayerBottomBar } from "@/component/AudioPlayerBottomBar";
-import { BottomBar } from "@/component/BottomBar";
+import { AudioPlayerBottomBar } from "@/components/AudioPlayerBottomBar";
+import { BottomBar } from "@/components/BottomBar";
 import { useContext } from "react";
 import { SongsContext } from "@/provider/SongsProvider";
 import { DynamoSong } from "@/type/dynamo";

@@ -2,7 +2,7 @@
 
 import { FC, useContext, useEffect, useState } from "react";
 import { IconContext } from "react-icons";
-import { IoIosArrowDown, IoIosPlayCircle } from "react-icons/io";
+import { IoIosArrowDown, IoIosPlayCircle, IoMdHeart } from "react-icons/io";
 import {
   IoPauseCircleSharp,
   IoPlaySkipBack,
@@ -31,6 +31,12 @@ import { AudioContext } from "@/provider/AudioProvider";
 import { useFilterCurrentMusic } from "@/lib/hooks/useFilterCurrentMusic";
 import { useNextSong } from "@/lib/hooks/useNextSong";
 import { usePrevSong } from "@/lib/hooks/usePrevSong";
+import { FaRegHeart } from "react-icons/fa";
+import { updateFavoriteSongs } from "@/lib/updateFavoiteSongs";
+import {
+  FavoriteSongIdsContext,
+  FavoriteSongIdsContextType,
+} from "@/provider/FavoriteSongIdsProvider";
 
 type Props = {};
 
@@ -52,6 +58,9 @@ export const AudioPlayerModal: FC<Props> = () => {
   const song = useFilterCurrentMusic();
   const changeSongNext = useNextSong();
   const changeSongPrev = usePrevSong();
+  const [favoriteSongIds, updateFavoriteSongIds] = useContext(
+    FavoriteSongIdsContext
+  ) as FavoriteSongIdsContextType;
 
   useEffect(() => {
     if (isAudioPlaying) {
@@ -98,15 +107,20 @@ export const AudioPlayerModal: FC<Props> = () => {
     setAudioPlayerModal(false);
   };
 
-  if (!audioPlayerModal) {
-    return <></>;
-  }
+  const handleOnHeartClick = () => {
+    updateFavoriteSongIds(song?.song_id!);
+    console.log(favoriteSongIds);
+  };
 
   const imagePath =
     process.env.NEXT_PUBLIC_AWS_S3_BUCKET_URL +
     "image/" +
     song?.song_id +
     ".jpg";
+
+  if (!audioPlayerModal) {
+    return <></>;
+  }
 
   return (
     <div
@@ -139,9 +153,16 @@ export const AudioPlayerModal: FC<Props> = () => {
               {song?.artist_name}
             </p>
           </div>
-          <div>
-            <button>-</button>
-            <button>+</button>
+          <div className="flex pr-5 items-center" onClick={handleOnHeartClick}>
+            {favoriteSongIds.includes(song?.song_id!) ? (
+              <IconContext.Provider value={{ size: "45px", color: "white" }}>
+                <IoMdHeart />
+              </IconContext.Provider>
+            ) : (
+              <IconContext.Provider value={{ size: "45px", color: "gray" }}>
+                <FaRegHeart />
+              </IconContext.Provider>
+            )}
           </div>
         </div>
         <div className="mt-5 w-full">
