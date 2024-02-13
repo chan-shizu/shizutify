@@ -34,7 +34,6 @@ export const useNextSong = () => {
     if (currentSongId !== "") {
       setSongHistories((prev) => [...prev, currentSongId]);
     }
-    console.log(songHistories);
   };
 
   return changeSongNext;

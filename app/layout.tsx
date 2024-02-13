@@ -25,7 +25,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const songs = (await fetchSongs()) as DynamoSong[];
-
   if (!songs) return <p>fetch failed...ごめん、、、</p>;
 
   return (

@@ -49,7 +49,6 @@ export const useChangeCurrentSong = () => {
     if (currentSongId !== "") {
       setSongHistories((prev) => [...prev, currentSongId]);
     }
-    console.log(songHistories);
     audio.src =
       process.env.NEXT_PUBLIC_AWS_S3_BUCKET_URL + "audio/" + songId + ".mp3";
     if (isAudioPlaying) {

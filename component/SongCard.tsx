@@ -1,21 +1,28 @@
+import { useChangeCurrentSong } from "@/lib/hooks/useChangeCurrentSong";
 import Image from "next/image";
 import { FC } from "react";
 
 type Props = {
-  imagePath: string;
   songTitle: string;
   artistName: string;
   songId: string;
 };
 
-export const SongCard: FC<Props> = ({
-  imagePath,
-  songTitle,
-  artistName,
-  songId,
-}) => {
+export const SongCard: FC<Props> = ({ songTitle, artistName, songId }) => {
+  const changeCurrentSong = useChangeCurrentSong();
+
+  const handleOnClick = () => {
+    changeCurrentSong(songId);
+  };
+
+  const imagePath =
+    process.env.NEXT_PUBLIC_AWS_S3_BUCKET_URL + "image/" + songId + ".jpg";
+
   return (
-    <div className="flex w-full gap-x-4 bg-zinc-600 rounded-xl">
+    <div
+      className="flex w-full gap-x-4 bg-zinc-600 rounded-xl"
+      onClick={handleOnClick}
+    >
       <Image
         src={imagePath}
         width={80}

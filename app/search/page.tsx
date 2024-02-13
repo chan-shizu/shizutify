@@ -11,12 +11,20 @@ import {
   CurrentSongIdContext,
   CurrentSongIdContextType,
 } from "@/provider/CurrentSongIdProvider";
+import { SongsContext } from "@/provider/SongsProvider";
 
 export const Page = () => {
   const [currentSongId, setCurrentSongId] = useContext(
     CurrentSongIdContext
   ) as CurrentSongIdContextType;
+  const songs = useContext(SongsContext);
   const [searchInput, setSearchInput] = useState("");
+
+  const filteredSongs = songs?.filter(
+    (song) =>
+      song.artist_name.includes(searchInput) ||
+      song.song_name.includes(searchInput)
+  );
 
   return (
     <div className="px-4 bg-zinc-800 min-h-screen">
@@ -41,15 +49,15 @@ export const Page = () => {
         />
       </label>
       <div className="flex flex-col gap-y-3 mt-8">
-        {resources.map((song) => (
-          <SongCard
-            key={song.musicPath}
-            imagePath={song.imagePath}
-            songTitle={song.songTitle}
-            artistName={song.artistName}
-            songId={"1"}
-          />
-        ))}
+        {filteredSongs &&
+          filteredSongs.map((song) => (
+            <SongCard
+              key={song.song_id}
+              songTitle={song.song_name}
+              artistName={song.artist_name}
+              songId={song.song_id}
+            />
+          ))}
       </div>
       {currentSongId !== "" && (
         <div className="fixed bottom-20 left-0 w-full">

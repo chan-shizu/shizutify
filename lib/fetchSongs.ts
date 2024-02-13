@@ -29,5 +29,5 @@ export const fetchSongs = async () => {
   const output = await ddbDocClient.send(command);
   const songs = output.Items;
   if (songs == undefined) return undefined;
-  return songs;
+  return songs.sort((a, b) => b.created_at - a.created_at);
 };
