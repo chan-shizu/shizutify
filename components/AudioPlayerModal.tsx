@@ -21,7 +21,6 @@ import {
   AudioCurrentTimeContextType,
 } from "../provider/AudioCurrentTimeProvider";
 
-import styles from "./AudioPlayerModal.module.css";
 import { AudioRangeSlider } from "./AudioRangeSlider";
 import {
   AudioPlayerModalContext,
@@ -32,7 +31,6 @@ import { useFilterCurrentMusic } from "@/lib/hooks/useFilterCurrentMusic";
 import { useNextSong } from "@/lib/hooks/useNextSong";
 import { usePrevSong } from "@/lib/hooks/usePrevSong";
 import { FaRegHeart } from "react-icons/fa";
-import { updateFavoriteSongs } from "@/lib/updateFavoiteSongs";
 import {
   FavoriteSongIdsContext,
   FavoriteSongIdsContextType,
@@ -123,12 +121,10 @@ export const AudioPlayerModal: FC<Props> = () => {
   }
 
   return (
-    <div
-      className={`${styles.modal} px-5 bg-gradient-to-b w-full from-teal-800 to-teal-950 text-white min-h-screen z-10 flex flex-col justify-between`}
-    >
+    <div className="fixed top-0 left-0 px-5 pb-3 bg-gradient-to-b w-full from-teal-800 to-teal-950 text-white min-h-screen z-10 flex flex-col justify-between">
       <div>
         <div className="relative">
-          <button onClick={closeModal} className={`${styles.close_modal_icon}`}>
+          <button onClick={closeModal} className="absolute top-3 left-1">
             <IconContext.Provider value={{ size: "40px", color: "white" }}>
               <IoIosArrowDown />
             </IconContext.Provider>
@@ -144,14 +140,8 @@ export const AudioPlayerModal: FC<Props> = () => {
       <div>
         <div className="mt-6 flex justify-between">
           <div>
-            <h2 className="font-bold text-2xl">
-              {/* {resources[currentSongId].songTitle} */}
-              {song?.song_name}
-            </h2>
-            <p className="text-lg text-gray-300">
-              {/* {resources[currentSongId].artistName} */}
-              {song?.artist_name}
-            </p>
+            <h2 className="font-bold text-2xl">{song?.song_name}</h2>
+            <p className="text-lg text-gray-300">{song?.artist_name}</p>
           </div>
           <div className="flex pr-5 items-center" onClick={handleOnHeartClick}>
             {favoriteSongIds.includes(song?.song_id!) ? (
