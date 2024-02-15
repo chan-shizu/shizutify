@@ -14,8 +14,16 @@ export const HistorySongCard: FC<Props> = ({ songTitle, songId }) => {
   const imagePath =
     process.env.NEXT_PUBLIC_AWS_S3_BUCKET_URL + "image/" + songId + ".jpg";
   return (
-    <div className="text-sm flex-none" onClick={handleOnClick}>
-      <Image src={imagePath} width={120} height={120} alt="artist image" />
+    <div
+      className="text-sm flex-none h-[120px] w-[120px] relative"
+      onClick={handleOnClick}
+    >
+      <Image
+        src={imagePath}
+        alt="artist image"
+        fill
+        style={{ objectFit: "cover" }}
+      />
       <p className="mt-2">{songTitle}</p>
     </div>
   );

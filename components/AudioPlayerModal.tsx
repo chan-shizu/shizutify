@@ -136,7 +136,7 @@ export const AudioPlayerModal: FC<Props> = () => {
           <h2 className="py-5 text-center font-sans">再生中</h2>
         </div>
         <img
-          className="rounded-2xl mt-4 w-full"
+          className="rounded-2xl mt-4 w-full h-[calc(100vw-40px)] object-cover"
           src={imagePath}
           alt="artist image"
         />
