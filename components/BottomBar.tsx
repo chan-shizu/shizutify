@@ -76,11 +76,11 @@ export const BottomBar = () => {
             <div className="flex justify-center">
               {pathName === "/request" ? (
                 <IconContext.Provider value={{ size: "25px", color: "white" }}>
-                  <BsEnvelopePaper />
+                  <BsEnvelopePaperFill />
                 </IconContext.Provider>
               ) : (
                 <IconContext.Provider value={{ size: "25px", color: "gray" }}>
-                  <BsEnvelopePaperFill />
+                  <BsEnvelopePaper />
                 </IconContext.Provider>
               )}
             </div>

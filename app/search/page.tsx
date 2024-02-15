@@ -27,7 +27,9 @@ export const Page = () => {
   );
 
   return (
-    <div className="px-4 bg-zinc-800 min-h-screen">
+    <div className={`px-4 bg-zinc-800 min-h-screen ${
+      currentSongId !== "" ? "pb-48" : "pb-24"
+    }`}>
       <h1 className="text-center text-2xl pt-5 font-semibold">検索</h1>
       <label
         htmlFor="search"
