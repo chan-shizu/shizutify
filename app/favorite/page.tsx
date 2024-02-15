@@ -43,14 +43,8 @@ export const Page = () => {
             />
           ))}
       </div>
-      {currentSongId !== "" && (
-        <div className="fixed bottom-20 left-0 w-full">
-          <AudioPlayerBottomBar />
-        </div>
-      )}
-      <div className="fixed bottom-0 left-0 w-full opacity-90 bg-black py-3">
-        <BottomBar />
-      </div>
+      {currentSongId !== "" && <AudioPlayerBottomBar />}
+      <BottomBar />
     </div>
   );
 };

@@ -60,10 +60,9 @@ export const AudioPlayerBottomBar = () => {
     ".jpg";
 
   return (
-    // <div onClick={handleOnClickBottomBar} className={`${styles.bottom_bar} `}>
     <div
       onClick={handleOnClickBottomBar}
-      className="pt-2 pl-3 pr-5 bg-[#33251f]"
+      className="fixed bottom-[78px] left-0 w-full pt-2 pl-3 pr-5 bg-[#33251f] "
     >
       <div className="flex justify-between">
         <div className="flex justify-center gap-x-4">
