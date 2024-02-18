@@ -62,6 +62,7 @@ export const AudioPlayerModal: FC<Props> = () => {
   ) as FavoriteSongIdsContextType;
 
   useEffect(() => {
+    if (!audio) return;
     if (isAudioPlaying) {
       audio?.play().catch(() => {
         // throw new Error("音声ファイルが見つかりません");
@@ -72,6 +73,8 @@ export const AudioPlayerModal: FC<Props> = () => {
   }, [isAudioPlaying, audio]);
 
   useEffect(() => {
+    if (!audio) return;
+
     audio.src =
       process.env.NEXT_PUBLIC_AWS_S3_BUCKET_URL +
       "audio/" +
@@ -83,6 +86,7 @@ export const AudioPlayerModal: FC<Props> = () => {
   }, [currentSongId, audio, isAudioPlaying, song]);
 
   useEffect(() => {
+    if (!audio) return;
     if (!isAudioPlaying) return;
     const interval = setInterval(() => {
       setAudioCurrentTime(audio.currentTime);
@@ -98,6 +102,7 @@ export const AudioPlayerModal: FC<Props> = () => {
   };
 
   const updateCurrentTime = (val: number) => {
+    if (!audio) return;
     audio.currentTime = val;
     setAudioCurrentTime(val);
   };
@@ -161,13 +166,15 @@ export const AudioPlayerModal: FC<Props> = () => {
             )}
           </div>
         </div>
-        <div className="mt-5 w-full">
-          <AudioRangeSlider
-            durationSecond={audio.duration}
-            currentTime={audioCurrentTime}
-            onChange={updateCurrentTime}
-          />
-        </div>
+        {audio && (
+          <div className="mt-5 w-full">
+            <AudioRangeSlider
+              durationSecond={audio.duration}
+              currentTime={audioCurrentTime}
+              onChange={updateCurrentTime}
+            />
+          </div>
+        )}
         <div className="text-center flex justify-center gap-x-5 align-middle">
           <button className="block" onClick={changeSongPrev}>
             <IconContext.Provider value={{ size: "40px" }}>

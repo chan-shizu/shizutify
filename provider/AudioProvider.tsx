@@ -2,15 +2,14 @@
 
 import { ReactNode, createContext } from "react";
 
-const audio = new Audio();
-
-export const AudioContext = createContext<HTMLAudioElement>(audio);
+export const AudioContext = createContext<HTMLAudioElement | null>(null);
 
 type Props = {
   children: ReactNode;
 };
 
 export const AudioProvider = ({ children }: Props) => {
+  const audio = Audio ? new Audio() : null;
   return (
     <AudioContext.Provider value={audio}>{children}</AudioContext.Provider>
   );

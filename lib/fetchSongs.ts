@@ -1,16 +1,7 @@
-import { DynamoSong } from "@/type/dynamo";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 
 import { DynamoDBDocument, ScanCommand } from "@aws-sdk/lib-dynamodb";
-
-const marshallOptions = {
-  convertEmptyValues: false, // false, by default.
-  removeUndefinedValues: false, // false, by default.
-  convertClassInstanceToMap: false, // false, by default.
-};
-const unmarshallOptions = {
-  wrapNumbers: false, // false, by default.
-};
+import { marshallOptions, unmarshallOptions } from "./fetchSongsOptions";
 
 const translateConfig = { marshallOptions, unmarshallOptions };
 const dbClient = new DynamoDBClient({
@@ -28,6 +19,6 @@ export const fetchSongs = async () => {
   });
   const output = await ddbDocClient.send(command);
   const songs = output.Items;
-  if (songs == undefined) return undefined;
+  if (!songs) return undefined;
   return songs.sort((a, b) => b.created_at - a.created_at);
 };

@@ -9,9 +9,8 @@ import {
   useState,
 } from "react";
 
-export const FavoriteSongIdsContext = createContext<
-  FavoriteSongIdsContextType | undefined
->(undefined);
+export const FavoriteSongIdsContext =
+  createContext<FavoriteSongIdsContextType | null>(null);
 
 export type FavoriteSongIdsContextType = [string[], (songId: string) => void];
 
@@ -19,16 +18,18 @@ type Props = {
   children: ReactNode;
 };
 
-const serializedFavoriteSongIds = localStorage.getItem("favoriteSongIds");
-const localFavoriteSongIds = serializedFavoriteSongIds
-  ? JSON.parse(serializedFavoriteSongIds)
-  : [];
-
 export const FavoriteSongIdsProvider = ({ children }: Props) => {
+  const serializedFavoriteSongIds = localStorage
+    ? localStorage.getItem("favoriteSongIds")
+    : null;
+  const localFavoriteSongIds = serializedFavoriteSongIds
+    ? JSON.parse(serializedFavoriteSongIds)
+    : [];
   const [favoriteSongIds, setFavoriteSongIds] =
     useState<string[]>(localFavoriteSongIds);
 
   const updateFavoriteSongIds = (songId: string) => {
+    if (!localStorage) return;
     if (favoriteSongIds.includes(songId)) {
       const updatedFavoriteSongIds = favoriteSongIds.filter(
         (tempSongId) => tempSongId !== songId

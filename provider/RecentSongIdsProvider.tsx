@@ -1,17 +1,9 @@
 "use client";
 
-import {
-  Dispatch,
-  FC,
-  ReactNode,
-  SetStateAction,
-  createContext,
-  useState,
-} from "react";
+import { ReactNode, createContext, useState } from "react";
 
-export const RecentSongIdsContext = createContext<
-RecentSongIdsContextType | undefined
->(undefined);
+export const RecentSongIdsContext =
+  createContext<RecentSongIdsContextType | null>(null);
 
 export type RecentSongIdsContextType = [string[], (songId: string) => void];
 
@@ -19,28 +11,25 @@ type Props = {
   children: ReactNode;
 };
 
-const serializedRecentSongIds = localStorage.getItem("recentSongIds");
-const localRecentSongIds = serializedRecentSongIds
-  ? JSON.parse(serializedRecentSongIds)
-  : [];
-
 export const RecentSongIdsProvider = ({ children }: Props) => {
+  const serializedRecentSongIds = localStorage
+    ? localStorage.getItem("recentSongIds")
+    : null;
+  const localRecentSongIds = serializedRecentSongIds
+    ? JSON.parse(serializedRecentSongIds)
+    : [];
   const [recentSongIds, setRecentSongIds] =
     useState<string[]>(localRecentSongIds);
 
   const addRecentSongIds = (songId: string) => {
-    const updatedRecentSongIds = [songId, ...[...recentSongIds].splice(0, 7)] ;
+    if (!localStorage) return;
+    const updatedRecentSongIds = [songId, ...[...recentSongIds].splice(0, 7)];
     setRecentSongIds(updatedRecentSongIds);
-    localStorage.setItem(
-      "recentSongIds",
-      JSON.stringify(updatedRecentSongIds)
-    );
+    localStorage.setItem("recentSongIds", JSON.stringify(updatedRecentSongIds));
   };
 
   return (
-    <RecentSongIdsContext.Provider
-      value={[recentSongIds, addRecentSongIds]}
-    >
+    <RecentSongIdsContext.Provider value={[recentSongIds, addRecentSongIds]}>
       {children}
     </RecentSongIdsContext.Provider>
   );

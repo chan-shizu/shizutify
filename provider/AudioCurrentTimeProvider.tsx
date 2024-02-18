@@ -9,9 +9,8 @@ import {
   useState,
 } from "react";
 
-export const AudioCurrentTimeContext = createContext<
-  AudioCurrentTimeContextType | undefined
->(undefined);
+export const AudioCurrentTimeContext =
+  createContext<AudioCurrentTimeContextType | null>(null);
 
 export type AudioCurrentTimeContextType = [
   number,

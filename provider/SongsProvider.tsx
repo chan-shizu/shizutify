@@ -3,7 +3,7 @@
 import { DynamoSong } from "@/type/dynamo";
 import { Dispatch, ReactNode, SetStateAction, createContext } from "react";
 
-export const SongsContext = createContext<DynamoSong[] | undefined>(undefined);
+export const SongsContext = createContext<DynamoSong[] | null>(null);
 
 type Props = {
   songs: DynamoSong[];

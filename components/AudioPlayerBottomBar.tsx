@@ -29,9 +29,6 @@ export const AudioPlayerBottomBar = () => {
   const [isAudioPlaying, setIsAudioPlaying] = useContext(
     AudioPlayingContext
   ) as AudioPlayingContextType;
-  const [currentSongId, setCurrentSongId] = useContext(
-    CurrentSongIdContext
-  ) as CurrentSongIdContextType;
   const [audioCurrentTime, setAudioCurrentTime] = useContext(
     AudioCurrentTimeContext
   ) as AudioCurrentTimeContextType;
@@ -87,10 +84,12 @@ export const AudioPlayerBottomBar = () => {
           </IconContext.Provider>
         </button>
       </div>
-      <AudioRangeSliderBottomBar
-        durationSecond={audio.duration}
-        currentTime={audioCurrentTime}
-      />
+      {audio && (
+        <AudioRangeSliderBottomBar
+          durationSecond={audio.duration}
+          currentTime={audioCurrentTime}
+        />
+      )}
     </div>
   );
 };

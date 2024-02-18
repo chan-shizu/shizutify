@@ -50,6 +50,7 @@ export const useChangeCurrentSong = () => {
   const audio = useContext(AudioContext);
 
   const changeCurrentSong = (songId: string) => {
+    if (!audio) return;
     setCurrentSongId(songId);
     setAudioCurrentTime(0);
     setAudioPlayerModal(true);

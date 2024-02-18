@@ -9,9 +9,8 @@ import {
   useState,
 } from "react";
 
-export const AudioPlayingContext = createContext<
-  AudioPlayingContextType | undefined
->(undefined);
+export const AudioPlayingContext =
+  createContext<AudioPlayingContextType | null>(null);
 
 export type AudioPlayingContextType = [
   boolean,

@@ -8,9 +8,8 @@ import {
   useState,
 } from "react";
 
-export const SongHistoriesContext = createContext<
-  SongHistoriesContextType | undefined
->(undefined);
+export const SongHistoriesContext =
+  createContext<SongHistoriesContextType | null>(null);
 
 export type SongHistoriesContextType = [
   string[],

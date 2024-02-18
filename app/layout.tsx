@@ -12,7 +12,10 @@ import { SongsProvider } from "@/provider/SongsProvider";
 import { DynamoSong } from "@/type/dynamo";
 import { SongHistoriesProvider } from "@/provider/SongHistoriesProvider";
 import { FavoriteSongIdsProvider } from "@/provider/FavoriteSongIdsProvider";
-import { RecentSongIdsContext, RecentSongIdsProvider } from "@/provider/RecentSongIdsProvider";
+import {
+  RecentSongIdsContext,
+  RecentSongIdsProvider,
+} from "@/provider/RecentSongIdsProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,7 +30,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const songs = (await fetchSongs()) as DynamoSong[];
-  if (!songs) return <p>fetch failed...ごめん、、、</p>;
 
   return (
     <html lang="ja">

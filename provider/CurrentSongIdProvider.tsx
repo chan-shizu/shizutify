@@ -9,9 +9,8 @@ import {
   useState,
 } from "react";
 
-export const CurrentSongIdContext = createContext<
-  CurrentSongIdContextType | undefined
->(undefined);
+export const CurrentSongIdContext =
+  createContext<CurrentSongIdContextType | null>(null);
 
 export type CurrentSongIdContextType = [
   string,

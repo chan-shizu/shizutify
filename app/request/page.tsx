@@ -6,12 +6,6 @@ import {
   CurrentSongIdContext,
   CurrentSongIdContextType,
 } from "@/provider/CurrentSongIdProvider";
-import {
-  FavoriteSongIdsContext,
-  FavoriteSongIdsContextType,
-} from "@/provider/FavoriteSongIdsProvider";
-import { SongsContext } from "@/provider/SongsProvider";
-import { error } from "console";
 import { useContext } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
