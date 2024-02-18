@@ -12,6 +12,7 @@ import { SongsProvider } from "@/provider/SongsProvider";
 import { DynamoSong } from "@/type/dynamo";
 import { SongHistoriesProvider } from "@/provider/SongHistoriesProvider";
 import { FavoriteSongIdsProvider } from "@/provider/FavoriteSongIdsProvider";
+import { RecentSongIdsContext, RecentSongIdsProvider } from "@/provider/RecentSongIdsProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -39,8 +40,10 @@ export default async function RootLayout({
                   <AudioProvider>
                     <SongHistoriesProvider>
                       <FavoriteSongIdsProvider>
-                        <div className="font-sans text-white">{children}</div>
-                        <AudioPlayerModal />
+                        <RecentSongIdsProvider>
+                          <div className="font-sans text-white">{children}</div>
+                          <AudioPlayerModal />
+                        </RecentSongIdsProvider>
                       </FavoriteSongIdsProvider>
                     </SongHistoriesProvider>
                   </AudioProvider>

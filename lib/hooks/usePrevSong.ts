@@ -7,6 +7,10 @@ import {
   CurrentSongIdContextType,
 } from "@/provider/CurrentSongIdProvider";
 import {
+  RecentSongIdsContext,
+  RecentSongIdsContextType,
+} from "@/provider/RecentSongIdsProvider";
+import {
   SongHistoriesContext,
   SongHistoriesContextType,
 } from "@/provider/SongHistoriesProvider";
@@ -23,6 +27,9 @@ export const usePrevSong = () => {
   const [songHistories, setSongHistories] = useContext(
     SongHistoriesContext
   ) as SongHistoriesContextType;
+  const [recentSongIds, addRecentSongIds] = useContext(
+    RecentSongIdsContext
+  ) as RecentSongIdsContextType;
   const songs = useContext(SongsContext);
 
   const changeSongPrev = () => {
@@ -32,9 +39,11 @@ export const usePrevSong = () => {
       const prevSongId = songs?.map((song) => song.song_id)[
         Math.floor(Math.random() * songs.length)
       ];
+      addRecentSongIds(prevSongId!);
       setCurrentSongId(prevSongId!);
     } else {
       setCurrentSongId(songHistories[songHistories.length - 1]);
+      addRecentSongIds(songHistories[songHistories.length - 1]);
       setSongHistories((prev) => prev.slice(0, -1));
     }
     setAudioCurrentTime(0);

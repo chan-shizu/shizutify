@@ -7,6 +7,10 @@ import {
   CurrentSongIdContextType,
 } from "@/provider/CurrentSongIdProvider";
 import {
+  RecentSongIdsContext,
+  RecentSongIdsContextType,
+} from "@/provider/RecentSongIdsProvider";
+import {
   SongHistoriesContext,
   SongHistoriesContextType,
 } from "@/provider/SongHistoriesProvider";
@@ -23,6 +27,9 @@ export const useNextSong = () => {
   const [songHistories, setSongHistories] = useContext(
     SongHistoriesContext
   ) as SongHistoriesContextType;
+  const [recentSongIds, addRecentSongIds] = useContext(
+    RecentSongIdsContext
+  ) as RecentSongIdsContextType;
   const songs = useContext(SongsContext);
 
   const changeSongNext = () => {
@@ -31,6 +38,7 @@ export const useNextSong = () => {
     ];
     setCurrentSongId(nextSongId!);
     setAudioCurrentTime(0);
+    addRecentSongIds(nextSongId!);
     if (currentSongId !== "") {
       setSongHistories((prev) => [...prev, currentSongId]);
     }
