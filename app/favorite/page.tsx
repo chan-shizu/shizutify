@@ -1,9 +1,6 @@
 "use client";
 
-import { resources } from "@/mockData";
 import { useContext, useState } from "react";
-import { IconContext } from "react-icons";
-import { IoMdSearch } from "react-icons/io";
 import { SongCard } from "@/components/SongCard";
 import { AudioPlayerBottomBar } from "@/components/AudioPlayerBottomBar";
 import { BottomBar } from "@/components/BottomBar";
@@ -30,9 +27,11 @@ export const Page = () => {
   );
 
   return (
-    <div className={`px-4 bg-zinc-800 min-h-screen ${
-      currentSongId !== "" ? "pb-48" : "pb-24"
-    }`}>
+    <div
+      className={`px-4 bg-zinc-800 min-h-screen ${
+        currentSongId !== "" ? "pb-48" : "pb-24"
+      }`}
+    >
       <h1 className="text-center text-2xl pt-5 font-semibold">お気に入り</h1>
       <div className="flex flex-col gap-y-3 mt-8">
         {favoriteSongs &&
