@@ -2,7 +2,7 @@
 
 import { resources } from "@/mockData";
 import { RecommendSongCard } from "./_component/RecommendSongCard";
-import { HistorySongCard } from "./_component/HistorySongCard";
+import { SongCard } from "./_component/SongCard";
 import { AudioPlayerBottomBar } from "@/components/AudioPlayerBottomBar";
 import { BottomBar } from "@/components/BottomBar";
 import { useContext } from "react";
@@ -12,7 +12,11 @@ import {
   CurrentSongIdContext,
   CurrentSongIdContextType,
 } from "@/provider/CurrentSongIdProvider";
-import { RecentSongIdsContext, RecentSongIdsContextType } from "@/provider/RecentSongIdsProvider";
+import {
+  RecentSongIdsContext,
+  RecentSongIdsContextType,
+} from "@/provider/RecentSongIdsProvider";
+import { formatCreatedAt } from "@/lib/formatCreatedAt";
 
 export const Page = () => {
   const [currentSongId, setCurrentSongId] = useContext(
@@ -23,9 +27,17 @@ export const Page = () => {
   ) as RecentSongIdsContextType;
   const songs = useContext(SongsContext) as DynamoSong[];
 
-  const randomSongs = [...songs].map((song)=>song.song_id).sort(() => Math.random() - 0.5).slice(0,8).map((songId) => songs.find((song) => song.song_id === songId));
-  const newSongs = [...songs].sort((a,b) => a.created_at < b.created_at ? 1 : -1).slice(0,8)
-  const recentSongs = recentSongIds.map((songId) => songs.find((song) => song.song_id === songId))
+  const randomSongs = [...songs]
+    .map((song) => song.song_id)
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 8)
+    .map((songId) => songs.find((song) => song.song_id === songId));
+  const newSongs = [...songs]
+    .sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
+    .slice(0, 8);
+  const recentSongs = recentSongIds.map((songId) =>
+    songs.find((song) => song.song_id === songId)
+  );
 
   return (
     <div
@@ -50,10 +62,11 @@ export const Page = () => {
         <h2 className="text-xl">最近追加された曲</h2>
         <div className="flex gap-x-4 overflow-x-scroll mt-3">
           {newSongs.map((song) => (
-            <HistorySongCard
+            <SongCard
               key={song.song_id}
               songTitle={song.song_name}
               songId={song.song_id}
+              createdAt={formatCreatedAt(song.created_at)}
             />
           ))}
         </div>
@@ -62,7 +75,7 @@ export const Page = () => {
         <h2 className="text-xl">最近聞いた曲</h2>
         <div className="flex gap-x-4 overflow-x-scroll mt-3">
           {recentSongs.map((song) => (
-            <HistorySongCard
+            <SongCard
               key={song?.song_id}
               songTitle={song?.song_name!}
               songId={song?.song_id!}

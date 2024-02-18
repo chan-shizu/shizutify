@@ -35,6 +35,7 @@ import {
   FavoriteSongIdsContext,
   FavoriteSongIdsContextType,
 } from "@/provider/FavoriteSongIdsProvider";
+import { formatCreatedAt } from "@/lib/formatCreatedAt";
 
 type Props = {};
 
@@ -138,12 +139,17 @@ export const AudioPlayerModal: FC<Props> = () => {
         />
       </div>
       <div>
-        <div className="mt-6 flex justify-between">
-          <div>
+        <div className="mt-6 flex justify-between w-full">
+          <div className="w-full">
             <h2 className="font-bold text-2xl">{song?.song_name}</h2>
-            <p className="text-lg text-gray-300">{song?.artist_name}</p>
+            <div className="flex justify-between items-end text-gray-300 w-full pr-3">
+              <p className="text-lg">{song?.artist_name}</p>
+              <p className="text-sm">
+                {formatCreatedAt(song?.created_at!)}追加
+              </p>
+            </div>
           </div>
-          <div className="flex pr-5 items-center" onClick={handleOnHeartClick}>
+          <div className="flex pr-2 items-center" onClick={handleOnHeartClick}>
             {favoriteSongIds.includes(song?.song_id!) ? (
               <IconContext.Provider value={{ size: "45px", color: "white" }}>
                 <IoMdHeart />
