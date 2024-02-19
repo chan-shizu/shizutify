@@ -70,6 +70,7 @@ export const AudioPlayerModal: FC<Props> = () => {
     } else {
       audio?.pause();
     }
+    console.log("is audio playing efect");
   }, [isAudioPlaying, audio]);
 
   useEffect(() => {
@@ -83,7 +84,7 @@ export const AudioPlayerModal: FC<Props> = () => {
     if (isAudioPlaying) {
       audio.play();
     }
-  }, [currentSongId, audio, isAudioPlaying, song]);
+  }, [currentSongId, audio, song]);
 
   useEffect(() => {
     if (!audio) return;

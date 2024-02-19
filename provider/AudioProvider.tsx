@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, createContext } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 
 export const AudioContext = createContext<HTMLAudioElement | null>(null);
 
@@ -8,9 +8,14 @@ type Props = {
   children: ReactNode;
 };
 
+const audio = typeof Audio !== "undefined" ? new Audio() : null; // only call client
 export const AudioProvider = ({ children }: Props) => {
-  const audio = typeof Audio !== "undefined" ? new Audio() : null; // only call client
+  const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(
+    audio
+  );
   return (
-    <AudioContext.Provider value={audio}>{children}</AudioContext.Provider>
+    <AudioContext.Provider value={currentAudio}>
+      {children}
+    </AudioContext.Provider>
   );
 };
