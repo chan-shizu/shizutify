@@ -12,17 +12,17 @@ import { RiSearchFill } from "react-icons/ri";
 export const BottomBar = () => {
   const pathName = usePathname();
   return (
-    <nav className="font-sans text-white w-full text-sm fixed bottom-0 left-0 w-full opacity-90 bg-black py-3">
+    <nav className="font-sans text-white w-full text-sm fixed bottom-0 left-0  opacity-90 bg-black py-3">
       <ul className="w-full flex">
-        <li className="w-full text-center h-[54px]">
+        <li className="w-full text-center h-[45px]">
           <Link href="/home" className=" flex flex-col justify-between h-full">
             <div className="flex justify-center">
               {pathName === "/home" ? (
-                <IconContext.Provider value={{ size: "30px", color: "white" }}>
+                <IconContext.Provider value={{ size: "25px", color: "white" }}>
                   <GoHomeFill />
                 </IconContext.Provider>
               ) : (
-                <IconContext.Provider value={{ size: "30px", color: "gray" }}>
+                <IconContext.Provider value={{ size: "25px", color: "gray" }}>
                   <GoHome />
                 </IconContext.Provider>
               )}
@@ -30,18 +30,18 @@ export const BottomBar = () => {
             <p>ホーム</p>
           </Link>
         </li>
-        <li className="w-full text-center h-[54px]">
+        <li className="w-full text-center h-[45px]">
           <Link
             href="/search"
             className=" flex flex-col justify-between h-full"
           >
             <div className="flex justify-center h-full">
               {pathName === "/search" ? (
-                <IconContext.Provider value={{ size: "30px", color: "white" }}>
+                <IconContext.Provider value={{ size: "25px", color: "white" }}>
                   <RiSearchFill />
                 </IconContext.Provider>
               ) : (
-                <IconContext.Provider value={{ size: "30px", color: "gray" }}>
+                <IconContext.Provider value={{ size: "25px", color: "gray" }}>
                   <FaSearch />
                 </IconContext.Provider>
               )}
@@ -49,18 +49,18 @@ export const BottomBar = () => {
             <p>検索</p>
           </Link>
         </li>
-        <li className="w-full text-center h-[54px]">
+        <li className="w-full text-center h-[45px]">
           <Link
             href="favorite"
             className=" flex flex-col justify-between h-full"
           >
             <div className="flex justify-center">
               {pathName === "/favorite" ? (
-                <IconContext.Provider value={{ size: "30px", color: "white" }}>
+                <IconContext.Provider value={{ size: "25px", color: "white" }}>
                   <IoMdHeart />
                 </IconContext.Provider>
               ) : (
-                <IconContext.Provider value={{ size: "30px", color: "gray" }}>
+                <IconContext.Provider value={{ size: "25px", color: "gray" }}>
                   <FaRegHeart />
                 </IconContext.Provider>
               )}
@@ -68,18 +68,18 @@ export const BottomBar = () => {
             <p>お気に入り</p>
           </Link>
         </li>
-        <li className="w-full text-center h-[54px]">
+        <li className="w-full text-center h-[45px]">
           <Link
             href="request"
             className=" flex flex-col justify-between h-full"
           >
             <div className="flex justify-center">
               {pathName === "/request" ? (
-                <IconContext.Provider value={{ size: "25px", color: "white" }}>
+                <IconContext.Provider value={{ size: "20px", color: "white" }}>
                   <BsEnvelopePaperFill />
                 </IconContext.Provider>
               ) : (
-                <IconContext.Provider value={{ size: "25px", color: "gray" }}>
+                <IconContext.Provider value={{ size: "20px", color: "gray" }}>
                   <BsEnvelopePaper />
                 </IconContext.Provider>
               )}

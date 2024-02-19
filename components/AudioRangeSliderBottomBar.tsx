@@ -24,13 +24,13 @@ export const AudioRangeSliderBottomBar: FC<Props> = ({
   }, [currentTime]);
 
   return (
-    <div className="w-full">
+    <div className="w-full h-3 relative">
       <input
         type="range"
         ref={range}
         max={durationSecond}
         value={currentTime}
-        className={styles.thumb}
+        className={`${styles.thumb} absolute bottom-0`}
       />
     </div>
   );

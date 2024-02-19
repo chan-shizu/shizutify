@@ -59,20 +59,22 @@ export const AudioPlayerBottomBar = () => {
   return (
     <div
       onClick={handleOnClickBottomBar}
-      className="fixed bottom-[78px] left-0 w-full pt-2 pl-3 pr-5 bg-[#33251f] "
+      className="fixed bottom-[69px] left-0 w-full pt-2 pl-3 pr-5 bg-[#33251f] "
     >
       <div className="flex justify-between">
         <div className="flex justify-center gap-x-4">
-          <Image
-            src={imagePath}
-            width={60}
-            height={60}
-            alt="artist image"
-            className="rounded-md"
-          />
+          <div className="relative w-[50px] h-[50px]">
+            <Image
+              src={imagePath}
+              fill
+              alt="artist image"
+              className="rounded-md"
+              style={{ objectFit: "cover" }}
+            />
+          </div>
           <div className="flex flex-col justify-center">
-            <p className="font-semibold">{song?.song_name}</p>
-            <p className="text-xl text-opacity-80 pt-1">{song?.artist_name}</p>
+            <p className="text-sm font-semibold">{song?.song_name}</p>
+            <p className="text-opacity-80 pt-1">{song?.artist_name}</p>
           </div>
         </div>
         <button
@@ -85,10 +87,12 @@ export const AudioPlayerBottomBar = () => {
         </button>
       </div>
       {audio && (
-        <AudioRangeSliderBottomBar
-          durationSecond={audio.duration}
-          currentTime={audioCurrentTime}
-        />
+        <div className="">
+          <AudioRangeSliderBottomBar
+            durationSecond={audio.duration}
+            currentTime={audioCurrentTime}
+          />
+        </div>
       )}
     </div>
   );
