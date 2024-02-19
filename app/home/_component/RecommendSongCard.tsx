@@ -19,13 +19,15 @@ export const RecommendSongCard: FC<Props> = ({ songTitle, songId }) => {
       className="flex w-full gap-x-2 bg-zinc-600 rounded-xl"
       onClick={handleOnClick}
     >
-      <Image
-        src={imagePath}
-        width={60}
-        height={60}
-        alt="artist image"
-        className="rounded-l-xl"
-      />
+      <div className="relative w-[60px] h-[60px]">
+        <Image
+          src={imagePath}
+          fill
+          alt="artist image"
+          className="rounded-l-xl"
+          style={{ objectFit: "cover" }}
+        />
+      </div>
       <p className="my-auto">{songTitle}</p>
     </div>
   );

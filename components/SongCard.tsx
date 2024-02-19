@@ -23,13 +23,15 @@ export const SongCard: FC<Props> = ({ songTitle, artistName, songId }) => {
       className="flex w-full gap-x-4 bg-zinc-600 rounded-xl"
       onClick={handleOnClick}
     >
-      <Image
-        src={imagePath}
-        width={80}
-        height={80}
-        alt="artist image"
-        className="rounded-l-xl"
-      />
+      <div className="relative w-[60px] h-[60px]">
+        <Image
+          src={imagePath}
+          fill
+          alt="artist image"
+          className="rounded-l-xl"
+          style={{ objectFit: "cover" }}
+        />
+      </div>
       <div className="flex flex-col justify-center">
         <p className="text-sm text-gray-300">{artistName}</p>
         <p className="text-lg">{songTitle}</p>
