@@ -1,3 +1,5 @@
+"use client";
+
 import { useChangeCurrentSong } from "@/lib/hooks/useChangeCurrentSong";
 import Image from "next/image";
 import { FC } from "react";

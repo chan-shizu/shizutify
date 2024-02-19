@@ -16,7 +16,7 @@ export const RecommendSongCard: FC<Props> = ({ songTitle, songId }) => {
 
   return (
     <div
-      className="flex w-full gap-x-2 bg-zinc-600 rounded-xl"
+      className="grid grid-cols-[60px_1fr] gap-x-2 bg-zinc-600 rounded-xl"
       onClick={handleOnClick}
     >
       <div className="relative w-[60px] h-[60px]">
