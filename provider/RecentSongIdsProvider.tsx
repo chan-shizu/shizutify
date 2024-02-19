@@ -12,9 +12,10 @@ type Props = {
 };
 
 export const RecentSongIdsProvider = ({ children }: Props) => {
-  const serializedRecentSongIds = localStorage
-    ? localStorage.getItem("recentSongIds")
-    : null;
+  const serializedRecentSongIds =
+    typeof localStorage !== "undefined"
+      ? localStorage.getItem("recentSongIds")
+      : null;
   const localRecentSongIds = serializedRecentSongIds
     ? JSON.parse(serializedRecentSongIds)
     : [];
@@ -22,7 +23,7 @@ export const RecentSongIdsProvider = ({ children }: Props) => {
     useState<string[]>(localRecentSongIds);
 
   const addRecentSongIds = (songId: string) => {
-    if (!localStorage) return;
+    if (typeof localStorage === "undefined") return;
     const updatedRecentSongIds = [songId, ...[...recentSongIds].splice(0, 7)];
     setRecentSongIds(updatedRecentSongIds);
     localStorage.setItem("recentSongIds", JSON.stringify(updatedRecentSongIds));

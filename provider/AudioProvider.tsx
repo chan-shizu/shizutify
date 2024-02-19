@@ -9,7 +9,7 @@ type Props = {
 };
 
 export const AudioProvider = ({ children }: Props) => {
-  const audio = Audio ? new Audio() : null;
+  const audio = typeof Audio !== "undefined" ? new Audio() : null; // only call client
   return (
     <AudioContext.Provider value={audio}>{children}</AudioContext.Provider>
   );

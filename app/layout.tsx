@@ -12,10 +12,7 @@ import { SongsProvider } from "@/provider/SongsProvider";
 import { DynamoSong } from "@/type/dynamo";
 import { SongHistoriesProvider } from "@/provider/SongHistoriesProvider";
 import { FavoriteSongIdsProvider } from "@/provider/FavoriteSongIdsProvider";
-import {
-  RecentSongIdsContext,
-  RecentSongIdsProvider,
-} from "@/provider/RecentSongIdsProvider";
+import { RecentSongIdsProvider } from "@/provider/RecentSongIdsProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 

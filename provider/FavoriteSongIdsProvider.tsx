@@ -19,9 +19,10 @@ type Props = {
 };
 
 export const FavoriteSongIdsProvider = ({ children }: Props) => {
-  const serializedFavoriteSongIds = localStorage
-    ? localStorage.getItem("favoriteSongIds")
-    : null;
+  const serializedFavoriteSongIds =
+    typeof localStorage !== "undefined"
+      ? localStorage.getItem("favoriteSongIds")
+      : null;
   const localFavoriteSongIds = serializedFavoriteSongIds
     ? JSON.parse(serializedFavoriteSongIds)
     : [];
@@ -29,7 +30,7 @@ export const FavoriteSongIdsProvider = ({ children }: Props) => {
     useState<string[]>(localFavoriteSongIds);
 
   const updateFavoriteSongIds = (songId: string) => {
-    if (!localStorage) return;
+    if (typeof localStorage === "undefined") return;
     if (favoriteSongIds.includes(songId)) {
       const updatedFavoriteSongIds = favoriteSongIds.filter(
         (tempSongId) => tempSongId !== songId
