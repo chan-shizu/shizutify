@@ -28,7 +28,7 @@ export const RecommendSongCard: FC<Props> = ({ songTitle, songId }) => {
           style={{ objectFit: "cover" }}
         />
       </div>
-      <p className="my-auto">{songTitle}</p>
+      <p className="my-auto text-sm">{songTitle}</p>
     </div>
   );
 };
