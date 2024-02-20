@@ -5,7 +5,7 @@ import { RecommendSongCard } from "./_component/RecommendSongCard";
 import { SongCard } from "./_component/SongCard";
 import { AudioPlayerBottomBar } from "@/components/AudioPlayerBottomBar";
 import { BottomBar } from "@/components/BottomBar";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { SongsContext } from "@/provider/SongsProvider";
 import { DynamoSong } from "@/type/dynamo";
 import {
@@ -26,12 +26,13 @@ export const Page = () => {
     RecentSongIdsContext
   ) as RecentSongIdsContextType;
   const songs = useContext(SongsContext) as DynamoSong[];
-
-  const randomSongs = [...songs]
+  const initialRandomSongs = [...songs]
     .map((song) => song.song_id)
     .sort(() => Math.random() - 0.5)
     .slice(0, 8)
     .map((songId) => songs.find((song) => song.song_id === songId));
+  const [randomSongs, setRandomSongs] = useState(initialRandomSongs);
+
   const newSongs = [...songs]
     .sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
     .slice(0, 8);
