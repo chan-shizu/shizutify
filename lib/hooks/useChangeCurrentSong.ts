@@ -38,9 +38,6 @@ export const useChangeCurrentSong = () => {
   const [audioCurrentTime, setAudioCurrentTime] = useContext(
     AudioCurrentTimeContext
   ) as AudioCurrentTimeContextType;
-  const [audioPlayerModal, setAudioPlayerModal] = useContext(
-    AudioPlayerModalContext
-  ) as AudioPlayerModalContextType;
   const [songHistories, setSongHistories] = useContext(
     SongHistoriesContext
   ) as SongHistoriesContextType;
@@ -53,7 +50,6 @@ export const useChangeCurrentSong = () => {
     if (!audio) return;
     setCurrentSongId(songId);
     setAudioCurrentTime(0);
-    setAudioPlayerModal(true);
     addRecentSongIds(songId);
     if (currentSongId !== "") {
       setSongHistories((prev) => [...prev, currentSongId]);
