@@ -13,6 +13,7 @@ import { DynamoSong } from "@/type/dynamo";
 import { SongHistoriesProvider } from "@/provider/SongHistoriesProvider";
 import { FavoriteSongIdsProvider } from "@/provider/FavoriteSongIdsProvider";
 import { RecentSongIdsProvider } from "@/provider/RecentSongIdsProvider";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -41,6 +42,7 @@ export default async function RootLayout({
                       <FavoriteSongIdsProvider>
                         <RecentSongIdsProvider>
                           <div className="font-sans text-white">{children}</div>
+                          <Analytics />
                           <AudioPlayerModal />
                         </RecentSongIdsProvider>
                       </FavoriteSongIdsProvider>
