@@ -29,7 +29,7 @@ export const SongCard: FC<Props> = ({ songTitle, songId, createdAt }) => {
         />
       </div>
       <p className="mt-2">{songTitle}</p>
-      {createdAt && <p className=" text-sm text-red-400">{createdAt}追加</p>}
+      {createdAt && <p className="text-sm text-red-400">{createdAt}追加</p>}
     </div>
   );
 };

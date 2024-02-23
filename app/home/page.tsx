@@ -5,7 +5,7 @@ import { RecommendSongCard } from "./_component/RecommendSongCard";
 import { SongCard } from "./_component/SongCard";
 import { AudioPlayerBottomBar } from "@/components/AudioPlayerBottomBar";
 import { BottomBar } from "@/components/BottomBar";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SongsContext } from "@/provider/SongsProvider";
 import { DynamoSong } from "@/type/dynamo";
 import {
@@ -26,19 +26,31 @@ export const Page = () => {
     RecentSongIdsContext
   ) as RecentSongIdsContextType;
   const songs = useContext(SongsContext) as DynamoSong[];
-  const initialRandomSongs = [...songs]
-    .map((song) => song.song_id)
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 8)
-    .map((songId) => songs.find((song) => song.song_id === songId));
-  const [randomSongs, setRandomSongs] = useState(initialRandomSongs);
+  const [randomSongs, setRandomSongs] = useState<DynamoSong[]>([]);
+
+  useEffect(() => {
+    const initialRandomSongs = [...songs]
+      .map((song) => song.song_id)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 8)
+      .map((songId) => songs.find((song) => song.song_id === songId))
+      .filter(
+        (item): item is Exclude<typeof item, undefined> => item !== undefined
+      );
+    setRandomSongs(initialRandomSongs);
+  }, []);
 
   const newSongs = [...songs]
     .sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
-    .slice(0, 8);
-  const recentSongs = recentSongIds.map((songId) =>
-    songs.find((song) => song.song_id === songId)
-  );
+    .slice(0, 8)
+    .filter(
+      (item): item is Exclude<typeof item, undefined> => item !== undefined
+    );
+  const recentSongs = recentSongIds
+    .map((songId) => songs.find((song) => song.song_id === songId))
+    .filter(
+      (item): item is Exclude<typeof item, undefined> => item !== undefined
+    );
 
   return (
     <div
@@ -50,11 +62,11 @@ export const Page = () => {
       <section className="pt-3">
         <h2 className="text-xl">おすすめの曲</h2>
         <div className="grid grid-cols-2 gap-2 mt-3">
-          {randomSongs.map((song) => (
+          {newSongs.map((song) => (
             <RecommendSongCard
-              key={song?.song_id!}
-              songTitle={song?.song_name!}
-              songId={song?.song_id!}
+              key={"recommend_song_" + song.song_id}
+              songTitle={song?.song_name}
+              songId={song?.song_id}
             />
           ))}
         </div>
@@ -64,7 +76,7 @@ export const Page = () => {
         <div className="flex gap-x-4 overflow-x-scroll mt-3">
           {newSongs.map((song) => (
             <SongCard
-              key={song.song_id}
+              key={"new_song_" + song.song_id}
               songTitle={song.song_name}
               songId={song.song_id}
               createdAt={formatCreatedAt(song.created_at)}
@@ -75,11 +87,11 @@ export const Page = () => {
       <section className="mt-6">
         <h2 className="text-xl">最近聞いた曲</h2>
         <div className="flex gap-x-4 overflow-x-scroll mt-3">
-          {recentSongs.map((song) => (
+          {recentSongs.map((song, i) => (
             <SongCard
-              key={song?.song_id}
-              songTitle={song?.song_name!}
-              songId={song?.song_id!}
+              key={"recent_song_" + i}
+              songTitle={song.song_name}
+              songId={song.song_id}
             />
           ))}
         </div>

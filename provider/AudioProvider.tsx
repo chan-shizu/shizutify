@@ -8,11 +8,18 @@ type Props = {
   children: ReactNode;
 };
 
-const audio = typeof Audio !== "undefined" ? new Audio() : null; // only call client
 export const AudioProvider = ({ children }: Props) => {
   const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(
-    audio
+    null
   );
+
+  useEffect(() => {
+    const audio = typeof Audio !== "undefined" ? new Audio() : null; // only call client
+    if (!audio) return;
+
+    setCurrentAudio(audio);
+  }, []);
+
   return (
     <AudioContext.Provider value={currentAudio}>
       {children}
