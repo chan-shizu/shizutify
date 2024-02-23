@@ -28,9 +28,10 @@ export const AudioRangeSliderBottomBar: FC<Props> = ({
       <input
         type="range"
         ref={range}
-        max={durationSecond}
+        max={isNaN(durationSecond) ? 0 : durationSecond}
         value={currentTime}
         className={`${styles.thumb} absolute bottom-0`}
+        readOnly
       />
     </div>
   );

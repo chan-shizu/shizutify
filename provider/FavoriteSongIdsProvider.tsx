@@ -6,6 +6,7 @@ import {
   ReactNode,
   SetStateAction,
   createContext,
+  useEffect,
   useState,
 } from "react";
 
@@ -19,15 +20,18 @@ type Props = {
 };
 
 export const FavoriteSongIdsProvider = ({ children }: Props) => {
-  const serializedFavoriteSongIds =
-    typeof localStorage !== "undefined"
-      ? localStorage.getItem("favoriteSongIds")
-      : null;
-  const localFavoriteSongIds = serializedFavoriteSongIds
-    ? JSON.parse(serializedFavoriteSongIds)
-    : [];
-  const [favoriteSongIds, setFavoriteSongIds] =
-    useState<string[]>(localFavoriteSongIds);
+  const [favoriteSongIds, setFavoriteSongIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    const serializedFavoriteSongIds =
+      typeof localStorage !== "undefined"
+        ? localStorage.getItem("favoriteSongIds")
+        : null;
+    const localFavoriteSongIds = serializedFavoriteSongIds
+      ? JSON.parse(serializedFavoriteSongIds)
+      : [];
+    setFavoriteSongIds(localFavoriteSongIds);
+  }, []);
 
   const updateFavoriteSongIds = (songId: string) => {
     if (typeof localStorage === "undefined") return;

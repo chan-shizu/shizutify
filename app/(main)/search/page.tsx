@@ -4,7 +4,7 @@ import { resources } from "@/mockData";
 import { useContext, useState } from "react";
 import { IconContext } from "react-icons";
 import { IoMdSearch } from "react-icons/io";
-import { SongCard } from "../../components/SongCard";
+import { SongCard } from "../../../components/SongCard";
 import { BottomBar } from "@/components/BottomBar";
 import { AudioPlayerBottomBar } from "@/components/AudioPlayerBottomBar";
 import {
