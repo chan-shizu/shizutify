@@ -3,10 +3,15 @@
 import { AudioPlayerBottomBar } from "@/components/AudioPlayerBottomBar";
 import { BottomBar } from "@/components/BottomBar";
 import {
+  AudioCurrentTimeContext,
+  AudioCurrentTimeContextType,
+} from "@/provider/AudioCurrentTimeProvider";
+import {
   CurrentSongIdContext,
   CurrentSongIdContextType,
 } from "@/provider/CurrentSongIdProvider";
-import { useContext } from "react";
+import { AudioContext } from "@/provider/AudioProvider";
+import { useContext, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -21,11 +26,22 @@ export const Page = () => {
   const [currentSongId, setCurrentSongId] = useContext(
     CurrentSongIdContext
   ) as CurrentSongIdContextType;
+  const audio = useContext(AudioContext);
+  const [audioCurrentTime, setAudioCurrentTime] = useContext(
+    AudioCurrentTimeContext
+  ) as AudioCurrentTimeContextType;
+
+  // タブが変わったときに曲が最初から再生されないようにする
+  useEffect(() => {
+    if (audio) {
+      audio.load();
+      audio.currentTime = audioCurrentTime ?? 0;
+    }
+  }, []);
 
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
     reset,
   } = useForm<Inputs>();

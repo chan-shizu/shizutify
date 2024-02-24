@@ -16,7 +16,12 @@ import {
   RecentSongIdsContext,
   RecentSongIdsContextType,
 } from "@/provider/RecentSongIdsProvider";
+import { AudioContext } from "@/provider/AudioProvider";
 import { formatCreatedAt } from "@/lib/formatCreatedAt";
+import {
+  AudioCurrentTimeContext,
+  AudioCurrentTimeContextType,
+} from "@/provider/AudioCurrentTimeProvider";
 
 export const Page = () => {
   const [currentSongId, setCurrentSongId] = useContext(
@@ -26,6 +31,10 @@ export const Page = () => {
     RecentSongIdsContext
   ) as RecentSongIdsContextType;
   const songs = useContext(SongsContext) as DynamoSong[];
+  const [audioCurrentTime, setAudioCurrentTime] = useContext(
+    AudioCurrentTimeContext
+  ) as AudioCurrentTimeContextType;
+  const audio = useContext(AudioContext);
   const [randomSongs, setRandomSongs] = useState<DynamoSong[]>([]);
 
   useEffect(() => {
@@ -38,6 +47,12 @@ export const Page = () => {
         (item): item is Exclude<typeof item, undefined> => item !== undefined
       );
     setRandomSongs(initialRandomSongs);
+
+    // タブが変わったときに曲が最初から再生されないようにする
+    if (audio) {
+      audio.load();
+      audio.currentTime = audioCurrentTime ?? 0;
+    }
   }, []);
 
   const newSongs = [...songs]

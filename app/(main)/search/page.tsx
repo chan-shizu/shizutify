@@ -1,7 +1,7 @@
 "use client";
 
 import { resources } from "@/mockData";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IconContext } from "react-icons";
 import { IoMdSearch } from "react-icons/io";
 import { SongCard } from "../../../components/SongCard";
@@ -12,13 +12,34 @@ import {
   CurrentSongIdContextType,
 } from "@/provider/CurrentSongIdProvider";
 import { SongsContext } from "@/provider/SongsProvider";
+import {
+  AudioCurrentTimeContext,
+  AudioCurrentTimeContextType,
+} from "@/provider/AudioCurrentTimeProvider";
+import { AudioContext } from "@/provider/AudioProvider";
+import {
+  AudioPlayingContext,
+  AudioPlayingContextType,
+} from "@/provider/AudioPlayingProvider";
 
 export const Page = () => {
   const [currentSongId, setCurrentSongId] = useContext(
     CurrentSongIdContext
   ) as CurrentSongIdContextType;
   const songs = useContext(SongsContext);
+  const [audioCurrentTime, setAudioCurrentTime] = useContext(
+    AudioCurrentTimeContext
+  ) as AudioCurrentTimeContextType;
+  const audio = useContext(AudioContext);
   const [searchInput, setSearchInput] = useState("");
+
+  // タブが変わったときに曲が最初から再生されないようにする
+  useEffect(() => {
+    if (audio) {
+      audio.load();
+      audio.currentTime = audioCurrentTime ?? 0;
+    }
+  }, []);
 
   const filteredSongs = songs?.filter(
     (song) =>

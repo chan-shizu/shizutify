@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SongCard } from "@/components/SongCard";
 import { AudioPlayerBottomBar } from "@/components/AudioPlayerBottomBar";
 import { BottomBar } from "@/components/BottomBar";
@@ -13,6 +13,11 @@ import {
   FavoriteSongIdsContext,
   FavoriteSongIdsContextType,
 } from "@/provider/FavoriteSongIdsProvider";
+import { AudioContext } from "@/provider/AudioProvider";
+import {
+  AudioCurrentTimeContext,
+  AudioCurrentTimeContextType,
+} from "@/provider/AudioCurrentTimeProvider";
 
 export const Page = () => {
   const [currentSongId, setCurrentSongId] = useContext(
@@ -22,9 +27,21 @@ export const Page = () => {
   const [favoriteSongIds, updateFavoriteSongIds] = useContext(
     FavoriteSongIdsContext
   ) as FavoriteSongIdsContextType;
+  const [audioCurrentTime, setAudioCurrentTime] = useContext(
+    AudioCurrentTimeContext
+  ) as AudioCurrentTimeContextType;
+  const audio = useContext(AudioContext);
   const favoriteSongs = songs?.filter((song) =>
     favoriteSongIds.includes(song.song_id)
   );
+
+  // タブが変わったときに曲が最初から再生されないようにする
+  useEffect(() => {
+    if (audio) {
+      audio.load();
+      audio.currentTime = audioCurrentTime ?? 0;
+    }
+  }, []);
 
   return (
     <div
