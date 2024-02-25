@@ -54,7 +54,7 @@ export const Page = () => {
     if (res.ok) {
       reset();
       toast.success(
-        "リクエストを送信しました！曲が追加されるまで少々お待ちを！",
+        "リクエストを送信しました！曲が追加されるまで少々お待ちください！",
         { duration: 10000 }
       );
     } else {
