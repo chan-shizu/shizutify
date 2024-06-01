@@ -64,9 +64,7 @@ export const AudioPlayerModal: FC<Props> = () => {
   useEffect(() => {
     if (!audio) return;
     if (isAudioPlaying) {
-      audio?.play().catch(() => {
-        // throw new Error("音声ファイルが見つかりません");
-      });
+      audio?.play().catch(() => {});
     } else {
       audio?.pause();
     }
