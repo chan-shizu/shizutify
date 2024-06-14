@@ -80,7 +80,7 @@ export const Page = () => {
         <div className="flex flex-col gap-y-2">
           <div>
             <label className="block">
-              あなたの名前(※必須、非公開なので出来たら誰だか分かる名前で！)
+              あなたの名前(※必須、非公開なので誰だか分かる名前にしてくれ！)
             </label>
             <input
               className="rounded-lg mt-2 w-full h-10 text-black px-2 text-lg"
